@@ -8,8 +8,11 @@ if (isset($_POST['email']) && isset($_POST['name']) && isset($_POST['issueType']
     $name = $_POST['name'];
     $issueType = $_POST['issueType'];
     $issueDesc = $_POST['issueDesc'];
-//    $ip = $_SERVER['REMOTE_ADDR'];
-    $ip = "69";
+    $ip = $_SERVER['REMOTE_ADDR'];
+
+    if (strlen($issueDesc) < 50) {
+        return "3";
+    }
 
     $prepared = $connection->prepare("SELECT * FROM tickets WHERE (email = ? OR ip = ?) AND ticketCreatedOn < CURRENT_TIMESTAMP - INTERVAL 1 DAY");
     $prepared->bind_param("ss", $email, $ip);

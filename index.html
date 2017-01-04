@@ -37,7 +37,7 @@
                         </label>
                         <label>
                             Please describe your issue
-                            <textarea id="issueDesc" class="materialize-textarea"></textarea>
+                            <textarea id="issueDesc" minlength="50" class="materialize-textarea"></textarea>
                         </label>
                         <input type="submit" class="btn blue" placeholder="Submit">
                     </form>
@@ -69,6 +69,9 @@
                      } else if (data == "2") {
                          // alert rate limit
                          window.alert("You've already submitted a ticket in the past 24 hours.");
+                     } else if (data == "3") {
+                         // alert message too short
+                         window.alert("Your description is too short.");
                      } else {
                          window.alert(data);
                      }
