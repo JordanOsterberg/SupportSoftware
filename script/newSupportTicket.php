@@ -10,8 +10,22 @@ if (isset($_POST['email']) && isset($_POST['name']) && isset($_POST['issueType']
     $issueDesc = $_POST['issueDesc'];
     $ip = $_SERVER['REMOTE_ADDR'];
 
+    if ($email == "" || $name == "" || $issueType == "" || $issueDesc == "") {
+        echo "404";
+        return;
+    }
+
     if (strlen($issueDesc) < 50) {
-        return "3";
+        echo "3";
+        return;
+    } else if (strlen($issueDesc) > 2000) {
+        echo "5";
+        return;
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "4";
+        return;
     }
 
     $prepared = $connection->prepare("SELECT * FROM tickets WHERE (email = ? OR ip = ?) AND ticketCreatedOn < CURRENT_TIMESTAMP - INTERVAL 1 DAY");

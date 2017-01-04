@@ -20,27 +20,30 @@
                     <h4>Create support ticket</h4>
                 </div>
 
-                <div align="left">
-                    <p><i>Description of ticket process, rules, etc. Whatever you want!</i></p>
+                <div id="form-holder">
+                    <div align="center">
+                        <p><i>Description of ticket process, rules, etc. Whatever you want!</i></p>
+                    </div>
                     <br>
-                    <form id="ticket-form">
-                        <label for="email">Email</label><input id="email" type="email" class="validate">
-                        <label for="name">Name</label><input id="name" type="text" class="validate">
-                        <label>
-                            Select an issue
-                            <select id="issueType">
-                                <option value="" disabled selected>Select an issue...</option>
-                                <option value="o1" selected>Option 1</option>
-                                <option value="o2">Option 2</option>
-                                <option value="o3">Option 3</option>
-                            </select>
-                        </label>
-                        <label>
-                            Please describe your issue
-                            <textarea id="issueDesc" minlength="50" class="materialize-textarea"></textarea>
-                        </label>
-                        <input type="submit" class="btn blue" placeholder="Submit">
-                    </form>
+                    <div class="row">
+                        <div class="col s8 push-s2">
+                            <form id="ticket-form">
+                                <label for="email">Email</label><input id="email" type="email" class="validate">
+                                <label for="name">Name</label><input id="name" type="text" class="validate">
+                                <label for="issueType">Select an issue</label>
+                                <select id="issueType">
+                                    <option value="" disabled selected>Select an issue...</option>
+                                    <option value="o1" selected>Option 1</option>
+                                    <option value="o2">Option 2</option>
+                                    <option value="o3">Option 3</option>
+                                </select>
+                                <textarea id="issueDesc" minlength="50" maxlength="2000" placeholder="Describe your issue..." class="materialize-textarea"></textarea>
+                                <div align="right"><label for="issueDesc" id="issueDescLabel">50 more characters needed.</label></div>
+                                <br>
+                                <input type="submit" class="btn blue" placeholder="Submit">
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
@@ -48,6 +51,23 @@
     <script>
         $(document).ready(function(){
             $('select').material_select();
+
+            $('#issueDesc').keydown(function() {
+                var length = $('#issueDesc').val().length;
+                if (length < 50) {
+                    $('#issueDescLabel').html((50 - length) + " more characters needed.");
+                } else {
+                    $('#issueDescLabel').html((length) + "/2000");
+                }
+            });
+            $('#issueDesc').keyup(function() {
+                var length = $('#issueDesc').val().length;
+                if (length < 50) {
+                    $('#issueDescLabel').html((50 - length) + " more characters needed.");
+                } else {
+                    $('#issueDescLabel').html((length) + "/2000");
+                }
+            });
         });
 
         $('#ticket-form').submit(function(e){
@@ -59,6 +79,7 @@
             var issueDesc = $('#issueDesc').val();
             // Submit to script
             $.post("script/newSupportTicket.php", {"email" : email, "name" : name, "issueType" : issueType, "issueDesc" : issueDesc}, function (data) {
+                console.log(data);
                  if (data == "1") {
                      // We're good
                      window.alert("Ticket created! We will email you when we resolve your ticket or need more information.");
@@ -72,8 +93,11 @@
                      } else if (data == "3") {
                          // alert message too short
                          window.alert("Your description is too short.");
+                     } else if (data == "4") {
+                         // alert email not email
+                         window.alert("The email you entered is invalid.");
                      } else {
-                         window.alert(data);
+                         window.alert("Something went wrong.");
                      }
                  }
             });
