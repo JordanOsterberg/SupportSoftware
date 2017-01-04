@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Support Software</title>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+    </head>
+
+    <body>
+        <main>
+            <div class="container">
+                <br>
+
+                <div align="center">
+                    <img src="https://www.shadowsystems.tech/logo.png" style="width: 100px; height: auto">
+                    <br>
+                    <h4>Create support ticket</h4>
+                </div>
+
+                <div align="left">
+                    <p><i>Description of ticket process, rules, etc. Whatever you want!</i></p>
+                    <br>
+                    <form id="ticket-form">
+                        <label for="email">Email</label><input id="email" type="email" class="validate">
+                        <label for="name">Name</label><input id="name" type="text" class="validate">
+                        <label>
+                            Select an issue
+                            <select id="issueType">
+                                <option value="" disabled selected>Select an issue...</option>
+                                <option value="o1" selected>Option 1</option>
+                                <option value="o2">Option 2</option>
+                                <option value="o3">Option 3</option>
+                            </select>
+                        </label>
+                        <label>
+                            Please describe your issue
+                            <textarea id="issueDesc" class="materialize-textarea"></textarea>
+                        </label>
+                        <input type="submit" class="btn blue" placeholder="Submit">
+                    </form>
+                </div>
+            </div>
+        </main>
+
+    <script>
+        $(document).ready(function(){
+            $('select').material_select();
+        });
+
+        $('#ticket-form').submit(function(e){
+            e.preventDefault();
+
+            var email = $('#email').val();
+            var name = $('#name').val();
+            var issueType = $('#issueType').val();
+            var issueDesc = $('#issueDesc').val();
+            // Submit to script
+            $.post("script/newSupportTicket.php", {"email" : email, "name" : name, "issueType" : issueType, "issueDesc" : issueDesc}, function (data) {
+                 if (data == "1") {
+                     // We're good
+                     window.alert("Ticket created! We will email you when we resolve your ticket or need more information.");
+                 } else {
+                     if (data == "404") {
+                         // alert needs more info
+                         window.alert("Please fill out all of the fields.");
+                     } else if (data == "2") {
+                         // alert rate limit
+                         window.alert("You've already submitted a ticket in the past 24 hours.");
+                     } else {
+                         window.alert(data);
+                     }
+                 }
+            });
+        });
+    </script>
+
+    </body>
+
+</html>
