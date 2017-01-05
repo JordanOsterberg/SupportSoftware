@@ -5,13 +5,17 @@
         <title>Support Software</title>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+        <link rel="stylesheet" href="css/ticketpage.css">
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
     </head>
 
     <body>
         <main>
-            <div class="container">
+            <br>
+            <br>
+            <br>
+            <div class="container" id="supportTicketHolder">
                 <br>
 
                 <div align="center">
@@ -45,6 +49,8 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <br>
             </div>
         </main>
 
@@ -92,10 +98,13 @@
                          window.alert("You've already submitted a ticket in the past 24 hours.");
                      } else if (data == "3") {
                          // alert message too short
-                         window.alert("Your description is too short.");
+                         window.alert("Your issue description is too short.");
                      } else if (data == "4") {
                          // alert email not email
                          window.alert("The email you entered is invalid.");
+                     } else if (data == "5") {
+                         // alert message too short
+                         window.alert("Your issue description is too long.");
                      } else {
                          window.alert("Something went wrong.");
                      }
