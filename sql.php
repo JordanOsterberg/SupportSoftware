@@ -3,6 +3,6 @@
  * @return mysqli
  */
 function accessConnection() {
-    $connection = mysqli_connect("138.68.55.139", "admin", "examplepassword", "support");
+    $connection = mysqli_connect("xxx.xx.xx.xxx", "admin", "examplepassword", "support");
     return $connection;
 }
